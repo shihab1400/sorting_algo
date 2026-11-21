@@ -102,11 +102,13 @@ function createBars(container, count) {
    return Array.from(container.querySelectorAll(".bars"));
 }
 
-function paintBars(barNodes, values, sorted) {
+function paintBars(barNodes, values, sorted, active) {
    var sortedIndices = new Set(sorted || []);
+   var activeIndices = new Set(active || []);
    barNodes.forEach((bar, index) => {
       bar.style.height = `${(values[index] / 39) * 100}%`;
-      bar.style.background = sortedIndices.has(index) ? sortColor : unsortColor;
+      bar.classList.toggle("is-active", activeIndices.has(index));
+      bar.style.background = activeIndices.has(index) ? "var(--bar-active)" : sortedIndices.has(index) ? sortColor : unsortColor;
    });
 }
 
@@ -554,7 +556,7 @@ function advanceRun() {
       job.metrics.swaps += frame.swaps;
       job.metrics.writes += frame.writes;
       if (job.side === null) heightArray = frame.values.slice();
-      paintBars(job.barNodes, frame.values, frame.sorted);
+      paintBars(job.barNodes, frame.values, frame.sorted, frame.active);
       playTone(frame.values[frame.active[0] || 0] || 5);
       updateElapsed(job, now);
       if (job.index >= job.frames.length) {
@@ -711,7 +713,20 @@ stepButton.addEventListener("click", () => {
 });
 
 restartButton.addEventListener("click", () => {
-   if (lastRunConfig) startRun(lastRunConfig);
+   if (!lastRunConfig) return;
+   clearInterval(runTimer);
+   runTimer = null;
+   activeRun = null;
+   heightArray = lastRunConfig.values.slice();
+   bars = createBars(barContainer, heightArray.length);
+   paintBars(bars, heightArray);
+   visualPanel.classList.toggle("compare-active", lastRunConfig.compare);
+   compareBoard.hidden = !lastRunConfig.compare;
+   if (lastRunConfig.compare) updateComparePreview();
+   resetMetricDisplays();
+   barContainer.setAttribute("aria-label", "Data bars ready to sort");
+   btnEnable();
+   updatePlaybackButtons();
 });
 
 speedSlider.addEventListener("input", () => {

@@ -13,6 +13,8 @@
    --page: #f3f6fb;
    --bar-unsorted: #7894b2;
    --bar-sorted: #f17c59;
+   --bar-outline: rgba(49, 69, 94, 0.48);
+   --bar-active: #efb93f;
    --panel: rgba(255, 255, 255, 0.92);
 }
 
@@ -27,6 +29,8 @@
    --grid-line: #29394e;
    --bar-unsorted: #7796bd;
    --bar-sorted: #ff9877;
+   --bar-outline: rgba(228, 237, 249, 0.55);
+   --bar-active: #ffd166;
    --panel: rgba(25, 38, 57, 0.96);
 }
 
@@ -276,11 +280,13 @@ button { -webkit-tap-highlight-color: transparent; }
 .meta-icon { margin-right: 5px; color: var(--blue); font-size: 12px; }
 
 .bar-container {
+   min-width: 0;
+   width: 100%;
    height: clamp(300px, 38vw, 410px);
    display: flex;
    align-items: flex-end;
-   justify-content: center;
-   gap: clamp(2px, 0.55vw, 7px);
+   justify-content: space-between;
+   gap: 0;
    margin-top: 10px;
    padding: 14px 8px 0;
    border-bottom: 1px solid #e9eef4;
@@ -291,14 +297,16 @@ button { -webkit-tap-highlight-color: transparent; }
 .bars {
    position: relative;
    flex: 1 1 0;
-   min-width: 2px;
+   min-width: 0;
    max-width: 19px;
+   border: 1px solid var(--bar-outline);
    border-radius: 5px 5px 1px 1px;
    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 3px 7px rgba(41, 61, 91, 0.08);
    transition: height 90ms ease-out, background-color 120ms ease, filter 120ms ease;
 }
 
 .bars:hover { filter: brightness(1.08); }
+.bars.is-active { z-index: 1; border-color: var(--ink); box-shadow: 0 0 0 2px color-mix(in srgb, var(--bar-active) 38%, transparent); }
 .chart-legend { display: flex; align-items: center; gap: 17px; min-height: 43px; color: #78879b; font-size: 10px; }
 .chart-legend > span { display: inline-flex; align-items: center; gap: 6px; }
 .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -467,7 +475,7 @@ button { -webkit-tap-highlight-color: transparent; }
 .compare-card header { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #53647b; font-size: 10px; }
 .compare-card header strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .compare-card header span { color: #8c9bb0; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.compare-bars { height: 300px; display: flex; align-items: flex-end; justify-content: center; gap: 2px; margin-top: 12px; padding: 8px 2px 0; border-bottom: 1px solid #e9eef4; }
+.compare-bars { min-width: 0; height: 300px; display: flex; align-items: flex-end; justify-content: space-between; gap: 0; margin-top: 12px; padding: 8px 2px 0; border-bottom: 1px solid #e9eef4; }
 .compare-bars .bars { max-width: 12px; }
 .compare-metrics { display: flex; flex-wrap: wrap; gap: 7px 12px; margin-top: 9px; color: #8b99aa; font-size: 8px; }
 .compare-metrics b { margin-left: 3px; color: #53647b; font-size: 9px; font-variant-numeric: tabular-nums; }

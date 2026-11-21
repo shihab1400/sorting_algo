@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Sortlab</title>
+  <rect width="64" height="64" rx="18" fill="#315fcb" />
+  <path d="M14 49h36" fill="none" stroke="#d7e2ff" stroke-linecap="round" stroke-width="3" />
+  <rect x="17" y="35" width="7" height="12" rx="3.5" fill="#fff" />
+  <rect x="29" y="27" width="7" height="20" rx="3.5" fill="#fff" />
+  <rect x="41" y="18" width="7" height="29" rx="3.5" fill="#fff" />
+</svg>

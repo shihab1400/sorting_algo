@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#f3f6fb" />
+        <link rel="icon" type="image/svg+xml" href="./sortlab-icon.svg" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Sortlab — Sorting Visualizer</title>
+    </head>
+    <body>
+        <main class="app-shell">
+            <header class="topbar">
+                <a class="brand" href="#" aria-label="Sortlab home">
+                    <img class="brand-icon" src="./sortlab-icon.svg" alt="" />
+                    <span>SORTLAB</span>
+                </a>
+                <div class="topbar-note">
+                    <span class="status-dot"></span> INTERACTIVE ALGORITHM PLAYGROUND
+                </div>
+                <div class="header-actions">
+                    <button
+                        class="theme-toggle"
+                        id="theme-toggle"
+                        type="button"
+                        aria-pressed="false"
+                        aria-label="Switch to dark theme"
+                    >
+                        <span class="theme-icon" aria-hidden="true">☾</span>
+                        <span id="theme-label">Dark theme</span>
+                    </button>
+                    <button
+                        class="sound-toggle"
+                        id="sound-toggle"
+                        type="button"
+                        aria-pressed="true"
+                        aria-label="Turn sound off"
+                    >
+                        <span class="sound-icon" aria-hidden="true">♫</span>
+                        <span id="sound-label">Sound on</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="page-intro">
+                <div>
+                    <p class="eyebrow">A little order from a little chaos</p>
+                    <h1>Sorting, made <span>visual.</span></h1>
+                    <p class="intro-copy">
+                        Pick an algorithm, tune the settings, and watch every move.
+                    </p>
+                </div>
+                <div class="intro-stamp" aria-hidden="true">
+                    <span>01</span><span>—</span><span>10</span><small>ALGORITHMS</small>
+                </div>
+            </section>
+
+            <div class="workspace">
+                <aside class="control-panel">
+                    <div class="panel-heading">
+                        <span class="step-number">01</span>
+                        <div>
+                            <h2>Choose an algorithm</h2>
+                            <p>How should we sort?</p>
+                        </div>
+                    </div>
+
+                    <label class="algorithm-picker" for="algorithm-select">
+                        <span>Sorting method</span>
+                        <select id="algorithm-select">
+                            <option value="bubble">Bubble sort · O(n²)</option>
+                            <option value="selection">Selection sort · O(n²)</option>
+                            <option value="insertion">Insertion sort · O(n²)</option>
+                            <option value="merge">Merge sort · O(n log n)</option>
+                            <option value="quick">Quick sort · O(n log n)</option>
+                            <option value="heap">Heap sort · O(n log n)</option>
+                            <option value="shell">Shell sort · O(n log² n)</option>
+                            <option value="cocktail">Cocktail sort · O(n²)</option>
+                            <option value="counting">Counting sort · O(n + k)</option>
+                            <option value="radix">Radix sort · O(d × (n + k))</option>
+                        </select>
+                    </label>
+                    <p id="algorithm-description" class="algorithm-description">
+                        Repeatedly swaps neighboring values that are out of order.
+                    </p>
+                    <div class="compare-setting">
+                        <label class="check-label"
+                            ><input id="compare-mode" type="checkbox" /> Compare with another
+                            algorithm</label
+                        >
+                        <label
+                            id="compare-picker"
+                            class="compare-picker"
+                            for="compare-select"
+                            hidden
+                        >
+                            <span>Second algorithm</span>
+                            <select id="compare-select">
+                                <option value="merge">Merge sort</option>
+                                <option value="quick">Quick sort</option>
+                                <option value="heap">Heap sort</option>
+                                <option value="counting">Counting sort</option>
+                                <option value="radix">Radix sort</option>
+                                <option value="bubble">Bubble sort</option>
+                                <option value="selection">Selection sort</option>
+                                <option value="insertion">Insertion sort</option>
+                                <option value="shell">Shell sort</option>
+                                <option value="cocktail">Cocktail sort</option>
+                            </select>
+                        </label>
+                        <p id="compare-validation" class="compare-validation" hidden>
+                            Choose two different algorithms to compare.
+                        </p>
+                    </div>
+                    <button
+                        id="run-sort"
+                        class="primary-sort-button"
+                        type="button"
+                        aria-describedby="sort-disabled-note"
+                    >
+                        <span aria-hidden="true">▶</span> Start sorting
+                    </button>
+                    <p id="sort-disabled-note" class="sort-disabled-note" aria-live="polite">
+                        This list is already ordered. Choose “Already sorted” to run a best-case
+                        test.
+                    </p>
+                    <div class="playback-controls" aria-label="Playback controls">
+                        <button id="pause-sort" type="button" disabled>Pause</button>
+                        <button id="step-sort" type="button" disabled>Step</button>
+                        <button id="restart-sort" type="button" disabled>Restart</button>
+                    </div>
+
+                    <div class="panel-divider"></div>
+                    <div class="panel-heading settings-heading">
+                        <span class="step-number">02</span>
+                        <div>
+                            <h2>Make it yours</h2>
+                            <p>Adjust your data set</p>
+                        </div>
+                    </div>
+
+                    <label class="slider-control" for="speed-slider">
+                        <span class="slider-label"
+                            ><span>Animation speed</span
+                            ><output id="speed-value" for="speed-slider">50%</output></span
+                        >
+                        <input id="speed-slider" type="range" min="1" max="100" value="50" />
+                        <span class="range-ends"><span>Leisurely</span><span>Snappy</span></span>
+                    </label>
+                    <div class="speed-presets" aria-label="Speed presets">
+                        <span>PRESETS</span>
+                        <button type="button" data-speed="15">Slow</button>
+                        <button type="button" data-speed="50">Normal</button>
+                        <button type="button" data-speed="95">Fast</button>
+                    </div>
+                    <label class="slider-control count-control" for="bar-count-slider">
+                        <span class="slider-label"
+                            ><span>Number of bars</span
+                            ><output id="bar-count-value" for="bar-count-slider">22</output></span
+                        >
+                        <input id="bar-count-slider" type="range" min="5" max="60" value="22" />
+                        <span class="range-ends"><span>5 bars</span><span>60 bars</span></span>
+                    </label>
+
+                    <label class="preset-control" for="dataset-preset">
+                        <span class="slider-label"><span>Test case</span></span>
+                        <select id="dataset-preset">
+                            <option value="random">Random arrangement</option>
+                            <option value="sorted">Already sorted</option>
+                            <option value="reverse">Reverse sorted</option>
+                            <option value="equal">All values equal</option>
+                            <option value="nearly">Nearly sorted</option>
+                            <option value="few-unique">Few unique values</option>
+                            <option value="custom">Custom values</option>
+                        </select>
+                        <span id="preset-description" class="preset-description"
+                            >A fresh random arrangement.</span
+                        >
+                    </label>
+
+                    <div class="custom-values-control">
+                        <label for="custom-values"
+                            >Your values <span>(5–39, comma separated)</span></label
+                        >
+                        <textarea
+                            id="custom-values"
+                            rows="2"
+                            placeholder="12, 5, 29, 18, 8"
+                        ></textarea>
+                        <button id="apply-custom-values" type="button">Apply values</button>
+                        <span id="custom-values-message" aria-live="polite"></span>
+                    </div>
+
+                    <button class="shuffle-button btn-unsort" type="button">
+                        <span aria-hidden="true">⤨</span> Shuffle the bars
+                    </button>
+                    <p class="keyboard-hint">Tip: try a slower speed to catch every swap.</p>
+                </aside>
+
+                <section class="visual-panel" aria-label="Sorting visualization">
+                    <div class="visual-header">
+                        <div>
+                            <p class="eyebrow">LIVE CANVAS</p>
+                            <h2>Your data, in motion</h2>
+                        </div>
+                        <div class="live-badge">
+                            <span class="status-dot"></span
+                            ><span id="sort-status" aria-live="polite">READY TO SORT</span>
+                        </div>
+                    </div>
+                    <div class="chart-meta">
+                        <span><span class="meta-icon">▥</span> VALUE HEIGHT</span
+                        ><span id="bar-count-meta">22 ELEMENTS</span>
+                    </div>
+                    <div class="operation-stats" id="operation-stats">
+                        <div>
+                            <span>COMPARISONS</span><strong id="counter-comparisons">0</strong>
+                        </div>
+                        <div><span>SWAPS</span><strong id="counter-swaps">0</strong></div>
+                        <div><span>WRITES</span><strong id="counter-writes">0</strong></div>
+                        <div><span>ELAPSED</span><strong id="counter-time">0.00s</strong></div>
+                    </div>
+                    <div class="bar-container" role="img" aria-label="Unsorted data bars"></div>
+                    <div class="chart-legend">
+                        <span><i class="legend-dot unsorted-dot"></i>Unsorted</span>
+                        <span><i class="legend-dot sorted-dot"></i>Sorted</span>
+                        <span class="legend-note">Each bar represents one value</span>
+                    </div>
+                    <div id="compare-board" class="compare-board" hidden>
+                        <article class="compare-card">
+                            <header>
+                                <strong id="compare-left-name">Bubble sort</strong
+                                ><span id="compare-left-time">0.00s</span>
+                            </header>
+                            <div
+                                id="compare-left-bars"
+                                class="compare-bars"
+                                role="img"
+                                aria-label="First algorithm bars"
+                            ></div>
+                            <div class="compare-metrics">
+                                <span>Comparisons <b id="compare-left-comparisons">0</b></span
+                                ><span>Swaps <b id="compare-left-swaps">0</b></span
+                                ><span>Writes <b id="compare-left-writes">0</b></span>
+                            </div>
+                        </article>
+                        <article class="compare-card">
+                            <header>
+                                <strong id="compare-right-name">Merge sort</strong
+                                ><span id="compare-right-time">0.00s</span>
+                            </header>
+                            <div
+                                id="compare-right-bars"
+                                class="compare-bars"
+                                role="img"
+                                aria-label="Second algorithm bars"
+                            ></div>
+                            <div class="compare-metrics">
+                                <span>Comparisons <b id="compare-right-comparisons">0</b></span
+                                ><span>Swaps <b id="compare-right-swaps">0</b></span
+                                ><span>Writes <b id="compare-right-writes">0</b></span>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="visual-footer">
+                        <div>
+                            <span class="footer-label">DATA RANGE</span><strong>5 — 39</strong>
+                        </div>
+                        <div>
+                            <span class="footer-label">ARRAY SIZE</span
+                            ><strong id="array-size">22 items</strong>
+                        </div>
+                        <div class="footer-message">
+                            <span class="sparkle">✳</span> Every algorithm has its own rhythm.
+                        </div>
+                    </div>
+                </section>
+
+                <aside
+                    class="algorithm-guide"
+                    aria-label="Selected algorithm guide"
+                    aria-live="polite"
+                >
+                    <div class="guide-kicker">
+                        <span class="guide-mark" aria-hidden="true">✳</span
+                        ><span class="eyebrow">ALGORITHM GUIDE</span>
+                    </div>
+                    <h2 id="guide-name">Bubble sort</h2>
+                    <span id="guide-complexity" class="guide-complexity">O(n²)</span>
+                    <p id="guide-description" class="guide-description">
+                        Repeatedly compares neighboring values and swaps them when they are out of
+                        order.
+                    </p>
+                    <div class="guide-divider"></div>
+                    <p class="guide-section-label">HOW IT WORKS</p>
+                    <ol id="guide-steps" class="guide-steps">
+                        <li>Compare a pair of neighboring bars.</li>
+                        <li>Swap the pair when the left value is larger.</li>
+                        <li>Repeat passes until the largest values settle at the end.</li>
+                    </ol>
+                    <div class="guide-badges">
+                        <span id="guide-stability">Stable</span
+                        ><span id="guide-space">In-place</span>
+                    </div>
+                    <div id="guide-kind" class="guide-kind">COMPARISON SORT</div>
+                </aside>
+            </div>
+            <footer class="page-footer">
+                <span>MADE FOR CURIOUS MINDS</span><span>RANDOMIZE. VISUALIZE. REPEAT.</span>
+            </footer>
+        </main>
+        <script src="index.js"></script>
+    </body>
+</html>
